@@ -1,0 +1,25 @@
+index:
+   path: /
+   controller: App\Controller\MainController::index
+
+form_client:
+    path: client/new/
+    controller: App\Controller\MainController::form_client
+
+modify:
+    path: /client/modify/{id}/
+    controller: App\Controller\MainController::modify
+    requirements:
+        id: '[0-9]+'
+
+delete:
+    path: /client/delete/{id}
+    controller: App\Controller\MainController::delete
+    requirements:
+        id: '[0-9]+'
+
+mail:
+    path: /client/mail/{id}
+    controller: App\Controller\MainController::sendMail
+    requirements:
+        id: '[0-9]+'
