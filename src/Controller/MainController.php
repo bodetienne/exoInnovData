@@ -32,11 +32,13 @@ class MainController extends Controller {
     $message = (new \Swift_Message('Salut '))
       ->setFrom('bodet.etienne79@gmail.com')
       ->setTo($mail_client)
-      ->setBody('Pupupupute', 'text/plain');
+      ->setBody('GRrr', 'text/plain');
+
+      dump($message);
 
     $mailer->send($message);
 
-    //var_dump($message);
+
 
     return $this->render('emails.html.twig');
    }
@@ -45,7 +47,7 @@ class MainController extends Controller {
      var_dump($id);
    }
 
-  public function form_client(Request $request){
+  public function form_client(Request $request, \Swift_Mailer $mailer){
     //création d'une nouvelle entité client
     $client = new Client();
 
@@ -69,7 +71,7 @@ class MainController extends Controller {
 
           // Création de transport
           //465 correspond au code smtp de gmail
-          $transport = (new \Swift_SmtpTransport('smtp.gmail.com', 465))
+          $transport = (new \Swift_SmtpTransport('smtp.gmail.com', 587))
             ->setUsername('bodet.etienne79@gmail.com')
             ->setPassword('etibod99917002')
             ;
@@ -77,7 +79,20 @@ class MainController extends Controller {
           // Create the Mailer using your created Transport
           $mailer = new \Swift_Mailer($transport);
 
-          $this->sendMail($mailer, $id_client);
+          $repo = $this->getDoctrine()->getRepository(Client::class);
+          $client = $repo->find($id_client);
+          //var_dump($client);
+          $mail_client = $client->mail;
+          //($mail_client);
+
+          $message = (new \Swift_Message('Salut '))
+            ->setFrom('bodet.etienne79@gmail.com')
+            ->setTo($mail_client)
+            ->setBody('GRrr', 'text/plain');
+
+          //dd($message);
+
+          dd($mailer->send($message));
           //return $this->redirectToRoute('index');
       }
       return $this->render('client/new.html.twig', array(

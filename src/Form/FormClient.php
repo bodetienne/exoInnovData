@@ -49,7 +49,6 @@ class FormClient extends AbstractType
         $resolver->setDefaults([
             'data_class' => Client::class,
             'action_name' => 'modify',
-            'action_name' => 'create'
         ]);
     }
   }
